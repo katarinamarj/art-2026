@@ -1,13 +1,20 @@
+using Microsoft.EntityFrameworkCore;
+using Art2026.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services
+var cs = builder.Configuration.GetConnectionString("Default");
+
+builder.Services.AddDbContext<ArtContext>(options =>
+    options.UseMySql(cs, ServerVersion.AutoDetect(cs))
+);
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Configure pipeline
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
